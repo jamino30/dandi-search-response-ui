@@ -3,18 +3,24 @@ from qdrant_client.http.models import Distance, VectorParams, PointStruct
 from qdrant_client.http.models import UpdateStatus
 from concurrent.futures import ThreadPoolExecutor, wait
 
-from ..core.settings import settings
 from .openai import OpenaiClient
 
+import os
+
+def safe_int(value, default: int=0):
+    try:
+        return int(value)
+    except Exception as e:
+        return int(default)
 
 class QdrantClient:
 
     def __init__(
         self,
-        host: str=settings.QDRANT_HOST,
-        port: int=settings.QDRANT_PORT,
-        vector_size: int=settings.QDRANT_VECTOR_SIZE,
-        api_key: str=settings.QDRANT_API_KEY,
+        host: str=os.environ.get('QDRANT_HOST', "http://qdrant"),
+        port: int=safe_int(os.environ.get('QDRANT_PORT'), 6333),
+        vector_size: int=safe_int(os.environ.get('QDRANT_VECTOR_SIZE'), 1536),
+        api_key: str=os.environ.get('QDRANT_API_KEY', None),
     ) -> None:
         self.host = host
         self.port = port

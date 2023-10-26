@@ -6,16 +6,16 @@ from pathlib import Path
 import json
 import uuid
 import openai
+import os
 from typing import AsyncGenerator
 
-from ..core.settings import settings
 from .dandi import DandiClient
 
 
 class OpenaiClient:
 
     def __init__(self):
-        openai.api_key = settings.OPENAI_API_KEY
+        openai.api_key = os.environ.get("OPENAI_API_KEY")
         self.dandi_client = DandiClient()
         self.embeddings_client = OpenAIEmbeddings()
 
