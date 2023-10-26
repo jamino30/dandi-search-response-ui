@@ -4,7 +4,6 @@
         <title>Dandi Search Response Form</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="scripts/tabswitch.js"></script>
-        <script src="scripts/viewresize.js"></script>
     </head>
     <body>
         <div class="container">
@@ -21,51 +20,51 @@
                         <form id="choose-relevant-form">
                             <label id="choose-relevant-info"><b>Instructions:</b> Mark the checkboxes of any Dandisets that are relevant to the query chosen above. If none are relevant, please leave all checkboxes unchecked.</label>
                             <ul>
-                                <li class="ds-checkbox select">
+                                <li class="ds-checkbox select" onclick="showTab(0)">
                                     <span class="ds-labels select">
-                                        <label class="select ds-label" for="ds1">Option 1</label>
+                                        <label class="select ds-label">Option 1</label>
                                         <br>
-                                        <label class="select ds-name" for="ds1">Option 1</label>
+                                        <label class="select ds-name">Option 1</label>
                                     </span>
                                     <input class="select ds-checkbox-icon" type="checkbox" id="ds1" name="ds1" value="">
                                 </li>
-                                <li class="ds-checkbox select">
+                                <li class="ds-checkbox select" onclick="showTab(1)">
                                     <span class="ds-labels select">
-                                        <label class="select ds-label" for="ds2">Option 2</label>
+                                        <label class="select ds-label">Option 2</label>
                                         <br>
-                                        <label class="select ds-name" for="ds2">Option 2</label>
+                                        <label class="select ds-name">Option 2</label>
                                     </span>
                                     <input class="select ds-checkbox-icon" type="checkbox" id="ds2" name="ds2" value="">
                                 </li>
-                                <li class="ds-checkbox select">
+                                <li class="ds-checkbox select" onclick="showTab(2)">
                                     <span class="ds-labels select">
-                                        <label class="select ds-label" for="ds3">Option 3</label>
+                                        <label class="select ds-label">Option 3</label>
                                         <br>
-                                        <label class="select ds-name" for="ds3">Option 3</label>
+                                        <label class="select ds-name">Option 3</label>
                                     </span>
                                     <input class="select ds-checkbox-icon" type="checkbox" id="ds3" name="ds3" value="">
                                 </li>
-                                <li class="ds-checkbox select">
+                                <li class="ds-checkbox select" onclick="showTab(3)">
                                     <span class="ds-labels select">
-                                        <label class="select ds-label" for="ds4">Option 4</label>
+                                        <label class="select ds-label">Option 4</label>
                                         <br>
-                                        <label class="select ds-name" for="ds4">Option 4</label>
+                                        <label class="select ds-name">Option 4</label>
                                     </span>
                                     <input class="select ds-checkbox-icon" type="checkbox" id="ds4" name="ds4" value="">
                                 </li>
-                                <li class="ds-checkbox select select">
+                                <li class="ds-checkbox select" onclick="showTab(4)">
                                     <span class="ds-labels select">
-                                        <label class="select ds-label" for="ds5">Option 5</label>
+                                        <label class="select ds-label">Option 5</label>
                                         <br>
-                                        <label class="select ds-name" for="ds5">Option 5</label>
+                                        <label class="select ds-name">Option 5</label>
                                     </span>
                                     <input class="select ds-checkbox-icon" type="checkbox" id="ds5" name="ds5" value="">
                                 </li>
-                                <li class="ds-checkbox select">
+                                <li class="ds-checkbox select" onclick="showTab(5)">
                                     <span class="ds-labels select">
-                                        <label class="select ds-label" for="ds6">Option 6</label>
+                                        <label class="select ds-label">Option 6</label>
                                         <br>
-                                        <label class="select ds-name" for="ds6">Option 6</label>
+                                        <label class="select ds-name">Option 6</label>
                                     </span>
                                     <input class="select ds-checkbox-icon" type="checkbox" id="ds6" name="ds6" value="">
                                 </li>
@@ -84,22 +83,6 @@
                 <iframe id="rf4" class="tab rightFrame" src=""></iframe>
                 <iframe id="rf5" class="tab rightFrame" src=""></iframe>
                 <iframe id="rf6" class="tab rightFrame" src=""></iframe>
-
-                <div class="button-container">
-                    <div class="button-row">
-                        <button id="rf-b1" class="tabButton" onclick="showTab(0)"></button>
-                        <button id="rf-b2" class="tabButton" onclick="showTab(1)"></button>
-                        <button id="rf-b3" class="tabButton" onclick="showTab(2)"></button>
-                    </div>
-                    <div class="button-row">
-                        <button id="rf-b4" class="tabButton" onclick="showTab(3)"></button>
-                        <button id="rf-b5" class="tabButton" onclick="showTab(4)"></button>
-                        <button id="rf-b6" class="tabButton" onclick="showTab(5)"></button>
-                    </div>
-                </div>  
-
-                <!-- <button id="increase-left-size">&gt;</button>
-                <button id="increase-right-size">&lt;</button> -->
         </div>  
         <script>
             document.getElementById("scan-button").addEventListener("click", async () => {
@@ -122,19 +105,15 @@
                 const result = await response.json();
                 
                 var iframes = document.querySelectorAll(".tab");
-                var buttons = document.querySelectorAll(".tabButton");
 
                 for (var i = 0; i < iframes.length; i++) {
                     iframes[i].src = `https://dandiarchive.org/dandiset/${result.ids[i]}`;
-                    buttons[i].textContent = result.ids[i];
                 }
 
-                var button_container = document.querySelector(".button-container");
                 var left_frame = document.querySelector(".leftFrame");
                 var right_frame = document.querySelector(".rightFrame");
                 
                 left_frame.style.border = "1px black solid";
-                button_container.style.display = "block";
                 right_frame.style.display = "block";
 
                 text_area.disabled = true;
@@ -155,19 +134,11 @@
             })
         </script>   
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const listItems = document.querySelectorAll(".ds-checkbox");
-
-                listItems.forEach(function (listItem) {
-                    const checkbox = listItem.querySelector('input[type="checkbox"]');
-                    
-                    listItem.addEventListener("click", function (event) {
-                        if (event.target !== checkbox) {
-                            checkbox.checked = !checkbox.checked;
-                        }
-                    });
-                });
-            });
+            document.getElementById("submit-button").addEventListener("click", async () => {
+                var submit_button = document.getElementById("submit-button");
+                submit_button.disabled = true;
+                submit_button.textContent = "Submission Complete"
+            })
         </script>
     </body>
 </html>
