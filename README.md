@@ -1,7 +1,7 @@
 # Dandi Search Response UI
 
 ## Demo
-![image](media/demo.gif)
+![image](media/ui-demo.gif)
 
 ## Instructions
 
