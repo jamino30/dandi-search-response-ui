@@ -87,7 +87,57 @@
 
                 <button id="open-in-new-tab" class="open-in-new-tab">Open in new tab</button>
                 <button id="reset-page" class="reset-page">Reset Page</button>
-        </div>  
+
+                <button id="right-larger" class="right-larger">&lt;</button>
+                <button id="left-larger" class="left-larger">&gt;</button>
+        </div>
+        <script> // change size
+            document.getElementById("left-larger").addEventListener("click", async () => {
+                var left_frame = document.querySelector('.leftFrame');
+                var right_frame = document.querySelectorAll(".rightFrame");
+                var left_larger = document.querySelector(".left-larger");
+                var right_larger = document.querySelector(".right-larger");
+                var styles = window.getComputedStyle(left_larger);
+                var current_posn_from_left = parseInt(styles.getPropertyValue("left"));
+                var container_width = parseInt(left_frame.parentElement.clientWidth);
+                var width_percent = Math.round((current_posn_from_left / container_width) * 100);
+                
+                if (width_percent < 75) {
+                    var new_width_percent = width_percent + 10;
+
+                    // update widths
+                    left_frame.style.width = new_width_percent + "%";
+                    for (var i = 0; i < right_frame.length; i++) {
+                        right_frame[i].style.width = (100 - new_width_percent) + "%";
+                    }
+                    left_larger.style.left = new_width_percent + "%";
+                    right_larger.style.right = (100 - new_width_percent) + "%";
+                }
+            });
+
+            document.getElementById("right-larger").addEventListener("click", async () => {
+                var left_frame = document.querySelector('.leftFrame');
+                var right_frame = document.querySelectorAll(".rightFrame");
+                var left_larger = document.querySelector(".left-larger");
+                var right_larger = document.querySelector(".right-larger");
+                var styles = window.getComputedStyle(right_larger);
+                var current_posn_from_right = parseInt(styles.getPropertyValue("right"));
+                var container_width = parseInt(right_frame[0].parentElement.clientWidth);
+                var width_percent = Math.round((current_posn_from_right / container_width) * 100);
+                
+                if (width_percent < 75) {
+                    var new_width_percent = width_percent + 10;
+
+                    // update widths
+                    left_frame.style.width = (100 - new_width_percent) + "%";
+                    for (var i = 0; i < right_frame.length; i++) {
+                        right_frame[i].style.width = new_width_percent + "%";
+                    }
+                    left_larger.style.left = (100 - new_width_percent) + "%";
+                    right_larger.style.right = new_width_percent + "%";
+                }
+            });
+        </script>  
         <script> // reset page button
             document.getElementById("reset-page").addEventListener("click", async () => {
                 var iframes = document.querySelectorAll(".tab");
@@ -98,7 +148,6 @@
                         break;
                     }
                 }   
-                
             })
         </script>
         <script> // open in new tab button
@@ -118,9 +167,11 @@
             document.getElementById("scan-button").addEventListener("click", async () => {
                 var scan_button = document.getElementById("scan-button");
                 scan_button.disabled = true;
-                scan_button.textContent = "Scanning..."
+                scan_button.textContent = "Scanning...";
                 scan_button.style.cursor = "default";
-                scan_button.style.background = "darkgreen";
+                scan_button.style.border = "1.5px green solid";
+                scan_button.style.color = "green";
+                scan_button.style.background = "white";
 
                 var text_area = document.getElementById("user-query");
                 const user_query = text_area.value;
@@ -164,6 +215,11 @@
                     ds_checkboxes[i].value = result.ids[i];
                     ds_names[i].innerHTML = "<b>Title:</b> " + result.names[i];
                 }
+
+                var left_larger_button = document.getElementById("left-larger");
+                var right_larger_button = document.getElementById("right-larger");
+                left_larger_button.style.display = "block";
+                right_larger_button.style.display = "block";
             })
         </script>   
         <script> // redirection once submit form complete

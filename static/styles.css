@@ -1,5 +1,5 @@
 :root {
-    --leftFrameWidth: 35%;
+    --leftFrameWidth: 30%;
     --rightFrameWidth: calc(100% - var(--leftFrameWidth));
 }
 
@@ -74,7 +74,7 @@ iframe {
     margin-bottom: 25px;
     margin-right: 0;
     outline: none;
-    border: 2px solid;
+    border: 1.5px solid;
     border-radius: 5px;
 }
 
@@ -117,7 +117,7 @@ li {
 
 .ds-checkbox {
     background: white;
-    border: 2px black solid;
+    border: 1.5px rgb(125, 125, 125) solid;
     color: black;
     padding: 15px;
     width: 95%;
@@ -130,29 +130,41 @@ li {
     align-items: center;
 }
 
-.ds-checkbox:hover {
-    background: rgb(238, 238, 238);
-}
-
-.ds-checkbox.clicked {
-    background: rgb(28, 28, 28);
-    color: white;
-}
-
 .ds-label, .ds-version {
     font-size: 12px;
     padding: 2px 8px;
     border-radius: 10px;
     background: white;
     color: black;
-    border: 2px black solid;
+    border: 1.5px rgb(125, 125, 125) solid;
 }
 
-.ds-checkbox.clicked .ds-label, 
+.ds-checkbox:hover,
+.ds-checkbox:hover .ds-label,
+.ds-checkbox:hover .ds-version {
+    border: 1.5px black solid;
+}
+
+.ds-checkbox.clicked {
+    background: rgb(235, 235, 235);
+    color: black;
+}
+
+.ds-checkbox.clicked {
+    border: 1.5px black solid;
+}
+
+.ds-checkbox.clicked .ds-label,
 .ds-checkbox.clicked .ds-version {
-    background: black;
-    color: white;
-    border: 2px white solid;
+    border: 1.5px black solid;
+}
+
+.ds-checkbox.clicked .ds-label {
+    background-color: rgb(206, 243, 255);
+} 
+
+.ds-checkbox.clicked .ds-version {
+    background-color: rgb(255, 207, 207);
 }
 
 .ds-name {
@@ -185,17 +197,9 @@ input[type="checkbox"]:checked {
     accent-color: green;
 }
 
-.tabButton {
-    text-align: left;
-}
-
-.tabButton:active {
-    background-color: black;
-}
-
 .reset-page {
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
     margin: 10px;
     padding: 15px 20px;
@@ -209,7 +213,7 @@ input[type="checkbox"]:checked {
 
 .open-in-new-tab {
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 120px;
     margin: 10px;
     padding: 15px 20px;
@@ -221,7 +225,35 @@ input[type="checkbox"]:checked {
     border: none;
 }
 
-.reset-page:hover, .open-in-new-tab:hover {
+.left-larger {
+    position: absolute;
+    display: none;
+    left: var(--leftFrameWidth);
+}
+
+.right-larger {
+    position: absolute;
+    display: none;
+    right: var(--rightFrameWidth);
+}
+
+.left-larger, .right-larger {
+    opacity: 0.85;
+    background-color: black;
+    border: none;
+    color: white;
+    bottom: 0;
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.reset-page:hover, 
+.open-in-new-tab:hover,
+.left-larger:hover, 
+.right-larger:hover {
     opacity: 1;
     cursor: pointer;
 }
