@@ -273,6 +273,7 @@
                 submit_button.disabled = true;
                 submit_button.style.background = "white";
                 if ("error" in result) {
+                    console.log(result["error"]);
                     submit_button.textContent = "Error Occurred";
                     submit_button.style.border = "1.5px red solid";
                     submit_button.style.color = "red";
