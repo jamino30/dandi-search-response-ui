@@ -37,10 +37,15 @@ async def submit_data(responses: ResponseItem):
 
     s3 = boto3.client("s3")
     bucket_name = "dandi-search-bucket"
-    object_key = str(uuid.uuid4())
+    object_key = f"response_data_{uuid.uuid4()}.json"
 
     try:
-        s3.put_object(Bucket=bucket_name, Key=object_key, Body=json_data)
+        s3.put_object(
+            Bucket=bucket_name, 
+            Key=object_key, 
+            Body=json_data,
+            ContentType="application/json"
+        )
         return {"message": "Responses uploaded"}
     except Exception as e:
         return {"error": str(e)}
