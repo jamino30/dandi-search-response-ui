@@ -11,8 +11,6 @@ import uuid
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
 
-DANDISETS = None
-
 class QueryItem(BaseModel):
     query: str
 
@@ -24,7 +22,6 @@ class ResponseItem(BaseModel):
 async def scan_query(query_item: QueryItem):
     try:
         result: dict = scan_for_relevant_dandisets(query_item.query)
-        DANDISETS = result
         return result
     except Exception as e:
         return {"error": str(e)}, 500
@@ -39,7 +36,6 @@ async def submit_data(responses: ResponseItem):
     json_data = json.dumps(data)
 
     s3 = boto3.client("s3")
-    
     bucket_name = "dandi-search-bucket"
     object_key = str(uuid.uuid4())
 

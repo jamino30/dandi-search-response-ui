@@ -223,18 +223,6 @@
                 right_larger_button.style.display = "block";
             })
         </script>   
-        <script> // redirection once submit form complete
-            document.getElementById("submit-button").addEventListener("click", async () => {
-                var submit_button = document.getElementById("submit-button");
-                submit_button.disabled = true;
-                submit_button.textContent = "Submission Complete";
-                submit_button.style.border = "1.5px green solid";
-                submit_button.style.color = "green";
-                submit_button.style.background = "white";
-
-                // location.reload();
-            })
-        </script>
         <script> // dandiset boxes are clicked (background color change)
             var checkboxes = document.querySelectorAll('.ds-checkbox');
 
@@ -251,6 +239,7 @@
         </script>
         <script>
             document.getElementById("submit-button").addEventListener("click", async () => {
+                var submit_button = document.getElementById("submit-button");
                 var text_area = document.getElementById("user-query");
                 const user_query = text_area.value;
                 var ds1 = document.getElementById('ds1');
@@ -280,7 +269,19 @@
                     body: JSON.stringify({"data": formData}),
                 });
                 const result = await response.json();
-                console.log(result);
+                
+                submit_button.disabled = true;
+                submit_button.style.background = "white";
+                if ("error" in result) {
+                    submit_button.textContent = "Error Occurred";
+                    submit_button.style.border = "1.5px red solid";
+                    submit_button.style.color = "red";
+                }
+                else {
+                    submit_button.textContent = "Submission Complete";
+                    submit_button.style.border = "1.5px green solid";
+                    submit_button.style.color = "green";
+                }
             });
         </script>
     </body>
