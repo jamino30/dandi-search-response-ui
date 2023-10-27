@@ -243,10 +243,10 @@ input[type="checkbox"]:checked {
     border: none;
     color: white;
     bottom: 0;
-    height: 50px;
-    width: 50px;
-    margin: 10px;
-    padding: 15px;
+    height: 35px;
+    width: 35px;
+    margin: 8px;
+    padding: 10px;
     border-radius: 5px;
 }
 

@@ -13,7 +13,7 @@
                         <form id="scan-for-relevant-form">
                             <label style="font-weight: bold;">Query</label>
                             <br>
-                            <textarea id="user-query" name="user-query" placeholder="e.g. Do any dandisets contain data relating to rat in maze experiments? "></textarea>
+                            <textarea id="user-query" name="user-query" placeholder="e.g. Are there any dandisets that contain primate neural recordings? "></textarea>
                             <br>
                             <button type="button" id="scan-button">Scan Dandi Archive</button>
                         </form>
@@ -77,7 +77,7 @@
                     <div class="relevant-sets-form" id="relevant-sets-form"></div>
                 </div>
 
-                <iframe class="start-tab rightFrame" src="data:text/html;charset=utf-8,<html><head></head><body style='text-align:center;'><p style='font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100%;text-align:center;'>Click on a dandiset's box on the left to open a view.<p></body></html>"></iframe>
+                <iframe class="start-tab rightFrame" src="data:text/html;charset=utf-8,<html><head></head><body style='text-align:center;'><p style='font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100%;text-align:center;'>Click a dandiset box on the left to open a view here<p></body></html>"></iframe>
                 <iframe id="rf1" class="tab rightFrame" src=""></iframe>
                 <iframe id="rf2" class="tab rightFrame" src=""></iframe>
                 <iframe id="rf3" class="tab rightFrame" src=""></iframe>
@@ -227,6 +227,9 @@
                 var submit_button = document.getElementById("submit-button");
                 submit_button.disabled = true;
                 submit_button.textContent = "Submission Complete";
+                submit_button.style.border = "1.5px green solid";
+                submit_button.style.color = "green";
+                submit_button.style.background = "white";
 
                 location.reload();
             })
