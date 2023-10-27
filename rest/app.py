@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
 from pathlib import Path
 from script import scan_for_relevant_dandisets
 import os
+import boto3
 
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
@@ -25,6 +26,13 @@ async def scan_query(query_item: QueryItem):
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+# @app.get("/submit/")
+# async def submit_data(data: str = Form(...)):
+#     json_data = {"key": data}
+
+#     s3 = boto3.client("s3", )
+
 
 
 @app.get("/styles.css", response_class=FileResponse)

@@ -6,8 +6,11 @@
 body, html {
     height: 100%;
     margin: 0;
-    overflow: hidden;
     font-family: "Inter", sans-serif;
+}
+
+button {
+    font-weight: bold;
 }
 
 .container {
@@ -26,6 +29,7 @@ iframe {
 .leftFrame { 
     width: var(--leftFrameWidth); 
     border: none;
+    overflow: auto;
 }
 
 .rightFrame { 
@@ -70,6 +74,8 @@ iframe {
     margin-bottom: 25px;
     margin-right: 0;
     outline: none;
+    border: 2px solid;
+    border-radius: 5px;
 }
 
 #submit-button {
@@ -110,12 +116,13 @@ li {
 }
 
 .ds-checkbox {
-    background: gray;
-    color: white;
+    background: white;
+    border: 2px black solid;
+    color: black;
     padding: 15px;
     width: 95%;
     margin-left: 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-radius: 5px;
     
     display: flex;
@@ -123,8 +130,36 @@ li {
     align-items: center;
 }
 
-.ds-label {
-    font-weight: bold;
+.ds-checkbox:hover {
+    background: rgb(238, 238, 238);
+}
+
+.ds-checkbox.clicked {
+    background: rgb(28, 28, 28);
+    color: white;
+}
+
+.ds-label, .ds-version {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: white;
+    color: black;
+    border: 2px black solid;
+}
+
+.ds-checkbox.clicked .ds-label, 
+.ds-checkbox.clicked .ds-version {
+    background: black;
+    color: white;
+    border: 2px white solid;
+}
+
+.ds-name {
+    font-size: 14px;
+    margin-top: 0;
+    display: block;
+    margin-top: 10px;
 }
 
 .select {
@@ -136,12 +171,24 @@ input {
 }
 
 .ds-labels {
-    width: 85%;
+    width: 86%;
 }
 
 input[type="checkbox"] {
-    transform: scale(2);
-    border-radius: 50%;
+    transform: scale(2.5);
+    border-radius: 100%;
+    outline: none;
+    margin-right: 8px;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: green;
+}
+
+input[type="checkbox"]:not(:checked) {
+    accent-color: red;
+    background-color: red;
+    content: "X";
 }
 
 .tabButton {
@@ -150,4 +197,37 @@ input[type="checkbox"] {
 
 .tabButton:active {
     background-color: black;
+}
+
+.reset-page {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+    padding: 15px 20px;
+    background: black;
+    color: white;
+    opacity: 0.85;
+    display: none;
+    border-radius: 5px;
+    border: none;
+}
+
+.open-in-new-tab {
+    position: absolute;
+    bottom: 0;
+    right: 120px;
+    margin: 10px;
+    padding: 15px 20px;
+    background: black;
+    color: white;
+    opacity: 0.85;
+    display: none;
+    border-radius: 5px;
+    border: none;
+}
+
+.reset-page:hover, .open-in-new-tab:hover {
+    opacity: 1;
+    cursor: pointer;
 }
