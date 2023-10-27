@@ -185,12 +185,6 @@ input[type="checkbox"]:checked {
     accent-color: green;
 }
 
-input[type="checkbox"]:not(:checked) {
-    accent-color: red;
-    background-color: red;
-    content: "X";
-}
-
 .tabButton {
     text-align: left;
 }

@@ -170,7 +170,9 @@
             document.getElementById("submit-button").addEventListener("click", async () => {
                 var submit_button = document.getElementById("submit-button");
                 submit_button.disabled = true;
-                submit_button.textContent = "Submission Complete"
+                submit_button.textContent = "Submission Complete";
+
+                location.reload();
             })
         </script>
         <script> // dandiset boxes are clicked (background color change)
