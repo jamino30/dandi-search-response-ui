@@ -1,21 +1,30 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
 from script import scan_for_relevant_dandisets
 
+import boto3
+import json
+import uuid
+
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
 
+DANDISETS = None
 
 class QueryItem(BaseModel):
     query: str
+
+class ResponseItem(BaseModel):
+    data: dict
 
 
 @app.post("/scan/")
 async def scan_query(query_item: QueryItem):
     try:
         result: dict = scan_for_relevant_dandisets(query_item.query)
+        DANDISETS = result
         return result
     except Exception as e:
         return {"error": str(e)}, 500
@@ -24,14 +33,24 @@ async def scan_query(query_item: QueryItem):
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# @app.get("/submit/")
-# async def submit_data(data: str = Form(...)):
-#     json_data = {"key": data}
+@app.post("/upload/")
+async def submit_data(responses: ResponseItem):
+    data = responses.data
+    json_data = json.dumps(data)
 
-#     s3 = boto3.client("s3", )
+    s3 = boto3.client("s3")
+    
+    bucket_name = "dandi-search-bucket"
+    object_key = str(uuid.uuid4())
+
+    try:
+        s3.put_object(Bucket=bucket_name, Key=object_key, Body=json_data)
+        return {"message": "Responses uploaded"}
+    except Exception as e:
+        return {"error": str(e)}
 
 
-
+# read styling and script files
 @app.get("/styles.css", response_class=FileResponse)
 async def read_css():
     return "static/styles.css"

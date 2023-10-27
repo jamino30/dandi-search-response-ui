@@ -19,7 +19,7 @@
                             <button type="button" id="scan-button">Scan Dandi Archive</button>
                         </form>
                         
-                        <form id="choose-relevant-form" action="/submit/" method="post">
+                        <form id="choose-relevant-form">
                             <label id="choose-relevant-info"><b>Instructions:</b> Mark the checkboxes of any Dandisets that are relevant to the query chosen above. If none are relevant, please leave all checkboxes unchecked. Use the right side panel to explore the 6 dandisets.</label>
                             <ul>
                                 <li class="ds-checkbox select" onclick="showTab(0)">
@@ -232,7 +232,7 @@
                 submit_button.style.color = "green";
                 submit_button.style.background = "white";
 
-                location.reload();
+                // location.reload();
             })
         </script>
         <script> // dandiset boxes are clicked (background color change)
@@ -247,6 +247,40 @@
         
             checkboxes.forEach(function(checkbox) {
                 checkbox.addEventListener('click', handleItemClick);
+            });
+        </script>
+        <script>
+            document.getElementById("submit-button").addEventListener("click", async () => {
+                var text_area = document.getElementById("user-query");
+                const user_query = text_area.value;
+                var ds1 = document.getElementById('ds1');
+                var ds2 = document.getElementById('ds2');
+                var ds3 = document.getElementById('ds3');
+                var ds4 = document.getElementById('ds4');
+                var ds5 = document.getElementById('ds5');
+                var ds6 = document.getElementById('ds6');
+
+                var formData = {
+                    "query": user_query,
+                    "responses": {
+                        [ds1.value]: ds1.checked,
+                        [ds2.value]: ds2.checked,
+                        [ds3.value]: ds3.checked,
+                        [ds4.value]: ds4.checked,
+                        [ds5.value]: ds5.checked,
+                        [ds6.value]: ds6.checked,
+                    }
+                };
+
+                const response = await fetch("/upload/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({"data": formData}),
+                });
+                const result = await response.json();
+                console.log(result);
             });
         </script>
     </body>
