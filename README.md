@@ -1,9 +1,17 @@
 # Dandi Search Response UI
-
-## Demo
 ![image](media/ui-demo.gif)
 
-## Instructions
+## Running Locally
 
-## Screenshots
-[![User Interface Demo](https://github.com/jamino30/dandi-search-response-ui/blob/main/media/thumbail.png)](https://github.com/jamino30/dandi-search-response-ui/blob/main/media/demo.mp4)
+1. To run the web application service, first build the Docker image (Dockerfile located in /rest directory).
+
+```bash
+docker build -t dandi-search-response-ui .
+```
+
+2. Run the container with the specific configurations (environment variables, port mapping).
+
+```bash
+docker run --env-file envfile.txt -p 8000:8000 dandi-search-response-ui
+```
+
