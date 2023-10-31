@@ -1,8 +1,10 @@
 import json
+
 from dandi.dandiapi import DandiAPIClient
-from clients.qdrant import QdrantClient
-from clients.openai import OpenaiClient
 from pathlib import Path
+
+from .clients.qdrant import QdrantClient
+from .clients.openai import OpenaiClient
 
 # Number of similar results to fetch (adjust based on model)
 TOP_K = 6

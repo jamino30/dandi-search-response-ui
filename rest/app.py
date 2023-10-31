@@ -1,12 +1,14 @@
+import boto3
+import json
+import uuid
+
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
-from script import scan_for_relevant_dandisets
 
-import boto3
-import json
-import uuid
+from .script import scan_for_relevant_dandisets
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
