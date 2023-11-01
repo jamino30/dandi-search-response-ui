@@ -34,7 +34,7 @@ async def submit_data(responses: ResponseItem):
     bucket_name = "dandi-search-bucket"
 
     try:
-        s3_client.put_object(bucket_name, responses.data)
+        s3_client.put_json_object(bucket_name, responses.data)
         return {"message": "Responses uploaded"}
     except Exception as e:
         return {"error": str(e)}
