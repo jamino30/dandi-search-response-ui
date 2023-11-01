@@ -1,4 +1,7 @@
 # Dandi Search Response UI
+
+[![Docker Image CI](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/docker-image.yml/badge.svg)](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/docker-image.yml)
+
 ![image](media/ui-demo.gif)
 
 ## Running Locally
