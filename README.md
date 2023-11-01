@@ -17,7 +17,7 @@ export AWS_SECRET_ACCESS_KEY=
 export AWS_DEFAULT_REGION=
 ```
 
-3. To run the web application service, first build the Docker image.
+2. To run the web application service, first build the Docker image.
 
 ```bash
 docker build -t dsru-app .
