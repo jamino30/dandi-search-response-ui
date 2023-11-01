@@ -26,5 +26,5 @@ docker build -t dsru-app .
 3. Run the container with the specific configurations (environment variables, port mapping).
 
 ```bash
-docker run --env-file envfile.txt -p 8000:8000
+docker run --env-file envfile.txt -p 8000:8000 dsru-app
 ```
