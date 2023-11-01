@@ -1,14 +1,10 @@
-import boto3
-import json
-import uuid
-
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
 
 from .script import scan_for_relevant_dandisets
-
+from .clients.aws_s3 import S3Bucket
 
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
@@ -34,36 +30,14 @@ async def read_root(request: Request):
 
 @app.post("/upload/")
 async def submit_data(responses: ResponseItem):
-    data = responses.data
-    json_data = json.dumps(data)
-
-    s3 = boto3.client("s3")
+    s3_client = S3Bucket()
     bucket_name = "dandi-search-bucket"
 
     try:
-        s3.put_object(
-            Bucket=bucket_name, 
-            Key=generate_object_key(data["query"]), 
-            Body=json_data,
-            ContentType="application/json"
-        )
+        s3_client.put_object(bucket_name, responses.data)
         return {"message": "Responses uploaded"}
     except Exception as e:
         return {"error": str(e)}
-    
-def generate_object_key(user_query: str, max_length=1024):
-    unique_id = str(uuid.uuid4())
-    type = ".json"
-    remaining = max_length - len(type) - len(unique_id)
-
-    formatted_query = "_".join(user_query.strip().lower().split())
-    if len(formatted_query) > remaining:
-        formatted_query = formatted_query[:remaining]
-        if len(formatted_query) > 0 and formatted_query[-1] == "_":
-            formatted_query = formatted_query[:-1]
-
-    object_key = f"{formatted_query}_{unique_id}{type}"
-    return object_key
 
 
 # read styling and script files
