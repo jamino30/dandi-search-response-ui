@@ -3,7 +3,7 @@
 
 ## Running Locally
 
-1. Fill in ```envfile.txt``` with the following environment variables
+1. Create ```envfile.txt``` (in root directory) and fill with the following environment variables.
 ```bash
 QDRANT_HOST=
 QDRANT_PORT=
