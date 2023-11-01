@@ -30,11 +30,10 @@ async def read_root(request: Request):
 
 @app.post("/upload/")
 async def submit_data(responses: ResponseItem):
-    s3_client = S3Bucket()
-    bucket_name = "dandi-search-bucket"
+    s3_client = S3Bucket("dandi-search-bucket")
 
     try:
-        s3_client.put_json_object(bucket_name, responses.data)
+        s3_client.put_json_object(responses.data)
         return {"message": "Responses uploaded"}
     except Exception as e:
         return {"error": str(e)}

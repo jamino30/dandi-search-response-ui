@@ -11,10 +11,12 @@ from botocore.exceptions import (
 from ..utils import generate_object_key
 
 class S3Bucket:
-    def __init__(self):
+    def __init__(self, bucket_name: str):
         self.aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID", None)
         self.aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY", None)
         self.aws_default_region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+
+        self.bucket_name = bucket_name
 
         try:
             self.s3_client = boto3.client(
@@ -31,11 +33,11 @@ class S3Bucket:
             print(e)
 
 
-    def put_json_object(self, bucket_name: str, data: dict) -> None:
+    def put_json_object(self, data: dict) -> None:
         json_data = json.dumps(data)
 
         self.s3_client.put_object(
-            Bucket=bucket_name, 
+            Bucket=self.bucket_name, 
             Key=generate_object_key(data["query"]), 
             Body=json_data,
             ContentType="application/json"
