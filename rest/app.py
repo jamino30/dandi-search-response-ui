@@ -10,9 +10,11 @@ from .clients.aws_s3 import S3Bucket
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
 
-@app.on_event("startup")
-async def startup_event():
-    get_secrets()
+# @app.on_event("startup")
+# async def startup_event():
+#     print("Loading environment variables")
+#     get_secrets()
+#     print("Environment variables successfully loaded")
 
 class QueryItem(BaseModel):
     query: str
