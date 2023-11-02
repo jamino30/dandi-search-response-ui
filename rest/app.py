@@ -2,12 +2,17 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
+from .get_secrets import get_secrets
 
 from .script import scan_for_relevant_dandisets
 from .clients.aws_s3 import S3Bucket
 
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
+
+@app.on_event("startup")
+async def startup_event():
+    get_secrets()
 
 class QueryItem(BaseModel):
     query: str
