@@ -10,9 +10,11 @@ from .clients.aws_s3 import S3Bucket
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
 
-@app.on_event("startup")
-async def startup_event():
-    get_secrets()
+# @app.on_event("startup")
+# async def startup_event():
+#     print("Loading environment variables")
+#     get_secrets()
+#     print("Environment variables successfully loaded")
 
 class QueryItem(BaseModel):
     query: str
@@ -35,7 +37,7 @@ async def read_root(request: Request):
 
 @app.post("/upload/")
 async def submit_data(responses: ResponseItem):
-    s3_client = S3Bucket("dandi-search-bucket")
+    s3_client = S3Bucket("dandi-search-llm-bucket")
 
     try:
         s3_client.put_json_object(responses.data)
