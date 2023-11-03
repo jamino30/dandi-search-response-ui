@@ -29,4 +29,9 @@ def get_secrets():
     secret_dict = json.loads(secret)
 
     for key, value in secret_dict.items():
+        print(f'{key} env var set...{value}')
         os.environ[key] = value
+        try:
+            print(f'{os.environ.get(key)}')
+        except:
+            pass

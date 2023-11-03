@@ -37,7 +37,7 @@ async def read_root(request: Request):
 
 @app.post("/upload/")
 async def submit_data(responses: ResponseItem):
-    s3_client = S3Bucket("dandi-search-bucket")
+    s3_client = S3Bucket("dandi-search-llm-bucket")
 
     try:
         s3_client.put_json_object(responses.data)
