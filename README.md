@@ -1,6 +1,7 @@
 # Dandi Search Response UI
 
 [![CI](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/docker-image.yml/badge.svg)](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/docker-image.yml)
+[![Push Docker image to ECR](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/push-docker-image-to-ecr.yml/badge.svg)](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/push-docker-image-to-ecr.yml)
 
 ![image](media/ui-demo.gif)
 
