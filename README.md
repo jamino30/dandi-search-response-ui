@@ -37,3 +37,7 @@ docker run --env-file envfile.txt -p 8000:8000 dsru-app
 
 In order to deploy a new version, please invoke the `deploy_new_version` workflow with your desired branch in 
 GitHub Actions.
+
+## Screenshots
+
+<img src="media/llm-search.drawio.svg" alt="LLM Search Roadmap">
