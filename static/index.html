@@ -9,8 +9,9 @@
     <body>
         <div class="container">
                 <div class="leftFrame">
-                    <img src="https://www.dandiarchive.org/handbook/img/dandi-logo-square_sw.png" style="margin-top: 30px;display:block;margin-left:auto;margin-right:auto;width:100px;margin-bottom:0;padding:0;margin-bottom:-35px;">
+                    <img src="https://www.dandiarchive.org/handbook/img/dandi-logo-square_sw.png" style="margin-top: 30px;display:block;margin-left:auto;margin-right:auto;width:100px;margin-bottom:-25px;padding:0;">
                     <div class="query-form">
+                        <p class="thank-you-response">✅ Thank you for your response! Feel free to submit another below.</p>
                         <form id="scan-for-relevant-form">
                             <label style="font-weight: bold;">Query</label>
                             <br>
@@ -221,6 +222,9 @@
                 var right_larger_button = document.getElementById("right-larger");
                 left_larger_button.style.display = "block";
                 right_larger_button.style.display = "block";
+
+                var thank_you_response = document.querySelector(".thank-you-response");
+                thank_you_response.style.display = "none";
             })
         </script>   
         <script> // dandiset boxes are clicked (background color change)
@@ -282,7 +286,29 @@
                     submit_button.textContent = "Submission Complete";
                     submit_button.style.border = "1.5px green solid";
                     submit_button.style.color = "green";
+                    
+                    // reload page below
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+
+                    // show thank you message once submission complete
+                    var thank_you_response = document.querySelector(".thank-you-response");
+                    thank_you_response.style.display = "block";
                 }
+            });
+        </script>
+        <script> // reload and show thank you message when response submitted
+            document.addEventListener("DOMContentLoaded", function() {
+                var thank_you_response = document.querySelector(".thank-you-response");
+                if (localStorage.getItem("formSubmitted") === "true") {
+                    thank_you_response.style.display = "block";
+                    localStorage.removeItem("formSubmitted");
+                }
+            });
+            document.getElementById("submit-button").addEventListener("click", async () => {
+                localStorage.setItem("formSubmitted", "true");
+                location.reload();
             });
         </script>
     </body>
