@@ -257,3 +257,13 @@ input[type="checkbox"]:checked {
     opacity: 1;
     cursor: pointer;
 }
+
+.thank-you-response {
+    display: none;
+    background: rgb(228, 235, 228);
+    margin-top: 50px;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 10px;
+    border: 1.5px rgb(125, 125, 125) solid;
+}
