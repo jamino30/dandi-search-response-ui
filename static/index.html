@@ -300,7 +300,6 @@
         </script>
         <script> // reload and show thank you message when response submitted
             document.addEventListener("DOMContentLoaded", function() {
-                localStorage.removeItem("formSubmitted");
                 var thank_you_response = document.querySelector(".thank-you-response");
                 if (localStorage.getItem("formSubmitted") === "true") {
                     thank_you_response.style.display = "block";
