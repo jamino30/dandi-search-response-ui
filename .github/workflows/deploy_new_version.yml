@@ -55,6 +55,6 @@ jobs:
           application_name: search-ui-dandi
           environment_name: Search-ui-dandi-env
           region: us-east-1
-          version_label: ${{ github.sha }}
+          version_label: ${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}-${{ github.run_id }}-$(date +"%Y%m%d%H%M%S")
           deployment_package: Dockerrun.aws.json
           existing_bucket_name: elasticbeanstalk-us-east-1-278212569472
