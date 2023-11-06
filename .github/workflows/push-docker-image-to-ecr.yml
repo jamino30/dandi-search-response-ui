@@ -62,3 +62,4 @@ jobs:
           region: us-east-1
           version_label: ${{ github.sha }}
           deployment_package: Dockerrun.aws.json
+          existing_bucket_name: elasticbeanstalk-us-east-1-278212569472
