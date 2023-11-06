@@ -1,6 +1,7 @@
 # Dandi Search Response UI
 
 [![CI](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/docker-image.yml/badge.svg)](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/docker-image.yml)
+[![Push Docker image to ECR and deploy new version to Elastic Beanstalk](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/deploy_new_version.yml/badge.svg)](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/deploy_new_version.yml)
 
 ![image](media/ui-demo.gif)
 
