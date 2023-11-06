@@ -1,9 +1,12 @@
-name: Push Docker image to ECR
+name: Push Docker image to ECR and deploy new version to Elastic Beanstalk
+
+#on:
+#  push:
+#    branches:
+#      - main
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -30,3 +33,32 @@ jobs:
         run: |
           docker build -t 278212569472.dkr.ecr.us-east-1.amazonaws.com/dandi-search-ui:${{ github.sha }} .
           docker push 278212569472.dkr.ecr.us-east-1.amazonaws.com/dandi-search-ui:${{ github.sha }}
+
+      - name: Generate Dockerrun.aws.json file
+        run: |
+          cat > Dockerrun.aws.json <<EOF
+            {
+              "AWSEBDockerrunVersion": "1",
+              "Image": {
+               "Name": "278212569472.dkr.ecr.us-east-1.amazonaws.com/dandi-search-ui:${{ github.sha }}",
+               "Update": "true"
+              },
+              "Ports": [
+                 {
+                   "ContainerPort": "80"
+                 }
+               ]
+            }
+          EOF
+          cat Dockerrun.aws.json
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: search-ui-dandi
+          environment_name: Search-ui-dandi-env
+          region: us-east-1
+          version_label: ${{ github.sha }}
+          deployment_package: Dockerrun.aws.json
