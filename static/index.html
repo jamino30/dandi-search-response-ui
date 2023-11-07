@@ -9,7 +9,7 @@
     <body>
         <div class="container">
                 <div class="leftFrame">
-                    <img src="https://www.dandiarchive.org/handbook/img/dandi-logo-square_sw.png" style="margin-top: 30px;display:block;margin-left:auto;margin-right:auto;width:100px;margin-bottom:-25px;padding:0;">
+                    <img src="https://www.dandiarchive.org/handbook/img/dandi-logo-square_sw.png" style="margin-top: 30px;display:block;margin-left:auto;margin-right:auto;width:100px;margin-bottom:-30px;padding:0;">
                     <div class="query-form">
                         <p class="thank-you-response">✅ Thank you for your response! Feel free to submit another below.</p>
                         <form id="scan-for-relevant-form">
@@ -196,6 +196,7 @@
                 var left_frame = document.querySelector(".leftFrame");
                 var right_frame = document.querySelector(".rightFrame");
                 
+                left_frame.style.width = "var(--leftFrameWidth)";
                 left_frame.style.border = "1px black solid";
                 right_frame.style.display = "block";
 

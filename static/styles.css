@@ -27,7 +27,7 @@ iframe {
 }
 
 .leftFrame { 
-    width: var(--leftFrameWidth); 
+    width: 600px;
     border: none;
     overflow: auto;
 }
@@ -46,6 +46,8 @@ iframe {
 }
 
 #scan-button {
+    box-sizing: border-box;
+    margin: 0;
     background-color: green;
     border: none;
     color: white;
