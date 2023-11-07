@@ -26,6 +26,7 @@ jobs:
 
       - name: Build and push
         run: |
+          docker system prune -a --force
           docker build -t 278212569472.dkr.ecr.us-east-1.amazonaws.com/dandi-search-ui:${{ github.sha }} .
           docker push 278212569472.dkr.ecr.us-east-1.amazonaws.com/dandi-search-ui:${{ github.sha }}
 
