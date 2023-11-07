@@ -53,7 +53,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: search-ui-dandi
-          environment_name: Search-ui-dandi-env
+          environment_name: Search-ui-dandi-env-1
           region: us-east-1
           version_label: ${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}-${{ github.run_id }}-$(date +"%Y%m%d%H%M%S")
           deployment_package: Dockerrun.aws.json
