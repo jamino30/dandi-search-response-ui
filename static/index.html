@@ -230,7 +230,7 @@
 
                 // handle click to edit query function
                 var query_label = document.getElementById("click-to-edit-query");
-                var cte_style = "margin-left: 8px; font-size: 12px; text-decoration: none;";
+                var cte_style = "margin-left: 8px; font-size: 12px; text-decoration: none; color: blue;";
                 localStorage.setItem("query", user_query);
                 query_label.innerHTML += `<a href='' id='click-to-edit-button' onclick='location.reload()' style='${cte_style}'>(click to edit)</a>`;
             });
