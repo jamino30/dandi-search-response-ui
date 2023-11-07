@@ -14,9 +14,9 @@
                     <div class="query-form">
                         <p class="thank-you-response">✅ Thank you for your response! Feel free to submit another below.</p>
                         <form id="scan-for-relevant-form">
-                            <label class="click-to-edit" style="font-weight: bold;">Query</label>
+                            <label id="click-to-edit-query" style="font-weight: bold;">Query</label>
                             <br>
-                            <textarea id="user-query" name="user-query" placeholder="e.g. Are there any dandisets that contain primate neural recordings?    "></textarea>
+                            <textarea id="user-query" name="user-query" placeholder="e.g. Are there any dandisets that contain primate neural recordings?"></textarea>
                             <br>
                             <button type="button" id="scan-button">Scan Dandi Archive</button>
                         </form>
@@ -227,8 +227,23 @@
 
                 var thank_you_response = document.querySelector(".thank-you-response");
                 thank_you_response.style.display = "none";
-            })
-        </script>   
+
+                // handle click to edit query function
+                var query_label = document.getElementById("click-to-edit-query");
+                var cte_style = "margin-left: 8px; font-size: 12px; text-decoration: none;";
+                localStorage.setItem("query", user_query);
+                query_label.innerHTML += `<a href='' id='click-to-edit-button' onclick='location.reload()' style='${cte_style}'>(click to edit)</a>`;
+            });
+        </script> 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var query = localStorage.getItem("query");
+                if (query) {
+                    document.getElementById("user-query").value = query;
+                    localStorage.removeItem("query");
+                }
+            });
+        </script>
         <script> // dandiset boxes are clicked (background color change)
             var checkboxes = document.querySelectorAll('.ds-checkbox');
 
@@ -310,6 +325,7 @@
             });
             document.getElementById("submit-button").addEventListener("click", async () => {
                 localStorage.setItem("formSubmitted", "true");
+                localStorage.removeItem("query");
                 location.reload();
             });
         </script>
