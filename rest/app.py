@@ -31,9 +31,9 @@ async def scan_query(query_item: QueryItem):
     except Exception as e:
         return {"error": str(e)}, 500
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+# @app.get("/", response_class=HTMLResponse)
+# async def read_root(request: Request):
+#     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/upload/")
 async def submit_data(responses: ResponseItem):

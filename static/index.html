@@ -178,7 +178,7 @@
                 var text_area = document.getElementById("user-query");
                 const user_query = text_area.value;
                 
-                const response = await fetch("/scan/", {
+                const response = await fetch("http://search-ui-dandi-env-2.us-east-1.elasticbeanstalk.com/scan/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -265,7 +265,7 @@
                     }
                 };
 
-                const response = await fetch("/upload/", {
+                const response = await fetch("http://search-ui-dandi-env-2.us-east-1.elasticbeanstalk.com/upload/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
