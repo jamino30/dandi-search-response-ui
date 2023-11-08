@@ -44,3 +44,14 @@ GitHub Actions.
 - Through the optimization of semantic search performance and the identification of the most effective LLM-powered processes, we are paving the way to develop an optimal search engine tailored for the Dandi Archive
 
 <img src="media/llm-search.drawio.svg" alt="LLM Search Roadmap">
+
+## Stress-testing:
+
+In order to stress test the app locally, we include a setup for Locust tooling.
+
+Steps:
+
+1. Edit the `stress-test/locustfile.py` to reflect simulating endpoints that can be invoked via the Locust test
+2. Launch the Locust UI via `docker-compose -f docker-compose.locust.yml up --scale worker=4` -- note: you may need to bring up/down the containers locally to enable hot-reloading in your `locustfile.py`
+
+
