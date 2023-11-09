@@ -1,7 +1,8 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
+from starlette.concurrency import run_in_threadpool
 
 from .script import scan_for_relevant_dandisets
 from .clients.aws_s3 import S3Bucket
@@ -26,9 +27,17 @@ def scan_query(query_item: QueryItem):
     except Exception as e:
         return {"error": str(e)}, 500
 
+
+def render_template(template_name: str, context: dict):
+    return templates.TemplateResponse(template_name, context)
+
+
 @app.get("/", response_class=HTMLResponse)
-def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def read_root(request: Request, background_tasks: BackgroundTasks):
+    template_context = {"request": request}
+    response = await run_in_threadpool(render_template, "index.html", template_context)
+    return response
+
 
 @app.post("/upload/")
 def submit_data(responses: ResponseItem):
