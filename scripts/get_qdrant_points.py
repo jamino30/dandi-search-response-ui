@@ -16,25 +16,24 @@ all_metadata_formatted: list[dict] = dandi_client.collect_relevant_metadata(meta
 print("START: Number of items:", len(all_metadata_formatted))
 
 
-# blacklist specific dandiset ids
+# blacklist specific dandiset ids (ignore version for now)
 dandiset_blacklist = [
-    "000545/draft",
-    "000470/draft",
-    "000411/draft",
-    "000529/draft",
-    "000299/draft",
-    "000029/0.230317.1553",
-    "000029/0.231017.2004"
-    "000027/0.210831.2033",
-    "000126/0.210813.0327",
-    "000544/0.230514.1148",
-    "000482/draft",
-    "000068/draft",
+    "000545",
+    "000470",
+    "000411",
+    "000529",
+    "000299",
+    "000029",
+    "000027",
+    "000126",
+    "000544",
+    "000482",
+    "000068",
 ]
 
 filtered_all_metadata_formatted = []
 for i, dandiset in enumerate(all_metadata_formatted):
-    if not any(item in dandiset["dandiset_id"] for item in dandiset_blacklist):
+    if not any(item in str(dandiset["dandiset_id"]).split(":")[-1] for item in dandiset_blacklist):
         filtered_all_metadata_formatted.append(dandiset)
     else:
         print(f"REMOVED -- {dandiset['dandiset_id']}: {dandiset['title']}")
@@ -44,8 +43,10 @@ if num_not_removed:
     print(f"NOTE: {num_not_removed} blacklisted dandisets not removed.")
 
 # overwrite qdrant_points.json
-emb = openai_client.get_embeddings(
-    metadata_list=filtered_all_metadata_formatted,
-    save_to_file=True
-)
-print("END: Number of emb items:", len(emb))
+update_file = True
+if update_file:
+    emb = openai_client.get_embeddings(
+        metadata_list=filtered_all_metadata_formatted,
+        save_to_file=True
+    )
+    print("END: Number of emb items:", len(emb))
