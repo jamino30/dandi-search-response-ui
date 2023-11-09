@@ -37,9 +37,9 @@ def get_qdrant_client(request: Request) -> QdrantClient:
     return request.app.state.qdrant_client
 
 @app.post("/scan/")
-def scan_query(query_item: QueryItem, qdrant_client: QdrantClient = Depends(get_qdrant_client)):
+async def scan_query(query_item: QueryItem, qdrant_client: QdrantClient = Depends(get_qdrant_client)):
     try:
-        result: dict = scan_for_relevant_dandisets(query_item.query, qdrant_client)
+        result: dict = await run_in_threadpool(scan_for_relevant_dandisets, query_item.query, qdrant_client)
         return result
     except Exception as e:
         return {"error": str(e)}, 500

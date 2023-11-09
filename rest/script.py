@@ -12,6 +12,8 @@ TOP_K = 6
 # Semantic "simple" search vs keyword-based "keyword" search (adjust based on model)
 METHOD = "simple"
 
+dandi_client = DandiAPIClient()
+
 def scan_for_relevant_dandisets(query: str, qdrant_client: QdrantClient):
     # strip user query
     query = query.strip()
@@ -35,7 +37,6 @@ def scan_for_relevant_dandisets(query: str, qdrant_client: QdrantClient):
 
     dandiset_ids = []
     dandiset_names = []
-    dandi_client = DandiAPIClient()
     for dandiset_result in similar_results:
         id = dandiset_result.split(":")[-1]
         dandiset_ids.append(id)

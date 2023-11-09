@@ -11,4 +11,4 @@ class LocustTests(HttpUser):
     def perform_scan(self):
         payload = {"query": "eeg data is awesome"}
         headers = {'content-type': 'application/json'}
-        self.client.post("scan/", json=payload, headers=headers)
+        self.client.post("/scan/", json=payload, headers=headers)
