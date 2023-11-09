@@ -10,6 +10,7 @@ import json
 from .script import scan_for_relevant_dandisets
 from .clients.aws_s3 import S3Bucket
 from .clients.qdrant import QdrantClient
+from .constants import DANDI_COLLECTION
 
 # docker build -t main . && docker run --env-file envfile.txt -p 8000:8000 main
 
@@ -21,8 +22,8 @@ async def startup_event():
     with open(str(Path.cwd() / "data/qdrant_points.json"), "r") as file:
             emb = json.load(file)
     qdrant_client = QdrantClient(host="https://906c3b3f-d3ff-4497-905f-2d7089487cf9.us-east4-0.gcp.cloud.qdrant.io")
-    qdrant_client.create_collection(collection_name="dandi_collection")
-    qdrant_client.add_points_to_collection(collection_name="dandi_collection", embeddings_objects=emb)
+    qdrant_client.create_collection(collection_name=DANDI_COLLECTION)
+    qdrant_client.add_points_to_collection(collection_name=DANDI_COLLECTION, embeddings_objects=emb)
     print("Qdrant Client loaded")
     app.state.qdrant_client = qdrant_client
 

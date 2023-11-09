@@ -77,7 +77,7 @@ class QdrantClient:
         search_results = self.query_similar_items(query=text, top_k=top_k, collection_name=collection_name)
         results = dict()
         for sr in search_results:
-            dandiset_id = sr.payload["dandiset_id"]
+            dandiset_id = f"DANDI:{sr.payload['dandiset_id']}/{sr.payload['dandiset_version']}"
             score = sr.score
             if dandiset_id not in results:
                 results[dandiset_id] = score
@@ -91,7 +91,7 @@ class QdrantClient:
         for keyword in keywords:
             search_results = self.query_similar_items(query=keyword, top_k=top_k, collection_name=collection_name)
             for sr in search_results:
-                dandiset_id = sr.payload["dandiset_id"]
+                dandiset_id = f"DANDI:{sr.payload['dandiset_id']}/{sr.payload['dandiset_version']}"
                 score = sr.score
                 if dandiset_id not in results:
                     results[dandiset_id] = score

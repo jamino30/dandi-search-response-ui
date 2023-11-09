@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .clients.qdrant import QdrantClient
 from .clients.openai import OpenaiClient
+from .constants import DANDI_COLLECTION
 
 # Number of similar results to fetch (adjust based on model)
 TOP_K = 6
@@ -20,7 +21,7 @@ def scan_for_relevant_dandisets(query: str, qdrant_client: QdrantClient):
 
     # Get semantic search results
     def get_similar_results(query: str, qdrant_client: QdrantClient):
-        similar_results = qdrant_client.query_from_user_input(text=query, collection_name="dandi_collection", top_k=TOP_K)
+        similar_results = qdrant_client.query_from_user_input(text=query, collection_name=DANDI_COLLECTION, top_k=TOP_K)
         return similar_results
 
     def get_keyword_results(query: str, openai_client: OpenaiClient, qdrant_client: QdrantClient):

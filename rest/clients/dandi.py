@@ -76,16 +76,33 @@ class DandiClient:
                     species = [a.name for a in m.assetsSummary.species]
                 else:
                     species = []
+                # all_metadata_formatted.append(
+                #     {
+                #         "dandiset_id": m.id,
+                #         "url": str(m.url),
+                #         "title": title,
+                #         "description": description,
+                #         "approaches": approaches,
+                #         "measurement_techniques": measurement_techniques,
+                #         "variables_measured": variables_measured,
+                #         "species": species,
+                #     }
+                # )
+                dandiset_id, dandiset_version = m.id.split(":")[-1].split("/")
                 all_metadata_formatted.append(
                     {
-                        "dandiset_id": m.id,
-                        "url": str(m.url),
+                        "dandiset_id": dandiset_id,
+                        "dandiset_version": dandiset_version,
                         "title": title,
                         "description": description,
                         "approaches": approaches,
+                        "number_of_approaches": len(approaches),
                         "measurement_techniques": measurement_techniques,
+                        "number_of_measurement_techniques": len(measurement_techniques),
                         "variables_measured": variables_measured,
+                        "number_of_variables_measured": len(variables_measured),
                         "species": species,
+                        "number_of_species": len(species),
                     }
                 )
             except Exception as e:
