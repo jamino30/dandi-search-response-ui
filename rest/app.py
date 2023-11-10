@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, BackgroundTasks, Depends
+from fastapi import FastAPI, BackgroundTasks, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
