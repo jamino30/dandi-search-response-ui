@@ -35,6 +35,8 @@ docker run --env-file envfile.txt -p 8000:8000 dsru-app
 
 ## Deployment
 
+Important: Ensure to change `DANDI_COLLECTION` constant in `rest/constants/` to `dandi_collection`.
+
 In order to deploy a new version, please invoke the `deploy_new_version` workflow with your desired branch in 
 GitHub Actions.
 
