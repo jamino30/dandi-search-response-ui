@@ -43,7 +43,7 @@ class OpenaiClient:
             } for i, emb in enumerate(embeddings)
         ]
         if save_to_file and len(qdrant_points) > 0:
-            with open(str(Path.cwd() / "data/qdrant_points.json"), "w") as f:
+            with open(str(Path.cwd().parent / "data" / "qdrant_points.json"), "w") as f:
                 json.dump(qdrant_points, f)
         return qdrant_points
 
