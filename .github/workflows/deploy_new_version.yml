@@ -1,4 +1,4 @@
-name: Push Docker image to ECR and deploy new version to Elastic Beanstalk
+name: Push Docker image to ECR
 
 on:
   workflow_dispatch:
