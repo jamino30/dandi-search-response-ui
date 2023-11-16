@@ -1,4 +1,4 @@
-# Dandi Search Response UI
+# Dandi Search UI
 
 [![llmsearch.dandiarchive.org](https://img.shields.io/badge/dandiarchive-llmsearch-<COLOR>?style=flat&color=blue)](https://llmsearch.dandiarchive.org/)
 [![Push Docker image to ECR](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/deploy_new_version.yml/badge.svg)](https://github.com/jamino30/dandi-search-response-ui/actions/workflows/deploy_new_version.yml)
