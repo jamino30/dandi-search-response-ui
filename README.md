@@ -63,4 +63,5 @@ Steps:
 - [ ] Allow users to upload their own Dandiset IDs that do not appear in the list (but may be relevant to the query or may seem like they are related to the query but are not).
 - [ ] Show confidence levels of dandisets chosen via similarity search (and place a threshold at which dandisets should be considered "relevant" or "not relevant").
 - [ ] Improve vector embeddings used for similarity search to allow for identification of dandisets relevant to scientific or quantatitve queries (e.g. "Show me dandisets that contain two or more species.")
+- [ ] Llama 2 for text embeddings (alongside ada-002)
 
