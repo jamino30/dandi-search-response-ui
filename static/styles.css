@@ -289,8 +289,9 @@ input[type="checkbox"]:checked {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
+    gap: 30px;
     margin-bottom: 15px;
+    height: 4550pxpx;
     width: 100%;
 }
 
@@ -299,15 +300,16 @@ input[type="checkbox"]:checked {
     grid-template-rows: 1fr 1fr;
     gap: 0px;
     width: 100%;
+    margin-top: 8px;
+    padding: 0;
 }
 
 .model-selection-dropdown-container {
-    margin: auto 0;
 }
 
 .model-selection-dropdown {
     width: 100%;
-    height: 50px;
+    height: 100%;
     text-align: center;
     border: 1.5px black solid;
     border-radius: 5px;
