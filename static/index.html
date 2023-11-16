@@ -21,6 +21,19 @@
                             <br>
                             <textarea id="user-query" name="user-query" placeholder="e.g. Are there any dandisets that contain primate neural recordings?"></textarea>
                             <br>
+                            <div class="scan-options-container">
+                                <div class="model-selection-labels">
+                                    <label style="font-weight: bold">Model</label>
+                                    <label style="font-size: 12px;">Select text embedding model</label>
+                                </div>
+                                <div class="model-selection-dropdown-container">
+                                    <select class="model-selection-dropdown">
+                                        <option value="ada-002">ada-002</option>
+                                        <option value="llama2">llama2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
                             <button type="button" id="scan-button">Scan Dandi Archive</button>
                         </form>
                         

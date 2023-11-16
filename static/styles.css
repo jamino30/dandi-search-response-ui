@@ -284,3 +284,32 @@ input[type="checkbox"]:checked {
     border-radius: 10px;
     border: 1.5px rgb(125, 125, 125) solid;
 }
+
+.scan-options-container {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.model-selection-labels {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px;
+    width: 100%;
+}
+
+.model-selection-dropdown-container {
+    margin: auto 0;
+}
+
+.model-selection-dropdown {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    border: 1.5px black solid;
+    border-radius: 5px;
+    outline: none;
+}
