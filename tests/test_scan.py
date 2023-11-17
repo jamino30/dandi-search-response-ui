@@ -25,13 +25,15 @@ class TestScanEndpoint(unittest.TestCase):
         self.assertEqual(len(names), 6)
 
         dandi_client = DandiAPIClient()
-        for id in ids:
+        for i, id in enumerate(ids):
             try:
                 ds_id, ds_version = id.split("/")
                 dandiset = dandi_client.get_dandiset(ds_id, ds_version)
                 print(dandiset)
             except Exception:
                 self.fail("Invalid dandiset ID.")
+            self.assertEqual(dandiset.get_raw_metadata()["name"], names[i])
+
 
 
 if __name__ == "__main__":
