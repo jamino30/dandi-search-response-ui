@@ -1,39 +1,32 @@
-import json
-
 from dandi.dandiapi import DandiAPIClient
-from pathlib import Path
-
 from .clients.qdrant import QdrantClient
-from .clients.openai import OpenaiClient
-from .constants import DANDI_COLLECTION
 
 # Number of similar results to fetch (adjust based on model)
 TOP_K = 6
 
 # Semantic "simple" search vs keyword-based "keyword" search (adjust based on model)
-METHOD = "simple"
+# METHOD = "simple"
 
 dandi_client = DandiAPIClient()
 
-def scan_for_relevant_dandisets(query: str, qdrant_client: QdrantClient):
-    # strip user query
+
+# change to true if testing locally; set to false for deployment
+TESTING = True
+
+def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantClient):
     query = query.strip()
 
     # Get semantic search results
     def get_similar_results(query: str, qdrant_client: QdrantClient):
-        similar_results = qdrant_client.query_from_user_input(text=query, collection_name=DANDI_COLLECTION, top_k=TOP_K)
+        similar_results = qdrant_client.query_from_user_input(
+            text=query, 
+            collection_name=model, 
+            top_k=TOP_K,
+            testing=TESTING
+        )
         return similar_results
 
-    def get_keyword_results(query: str, openai_client: OpenaiClient, qdrant_client: QdrantClient):
-        keywords = openai_client.keywords_extraction(user_input=query)
-        similar_results = get_similar_results(query="".join(keywords), qdrant_client=qdrant_client)
-        return similar_results
-
-    if METHOD == "simple":
-        similar_results = get_similar_results(query, qdrant_client)
-    else:
-        openai_client = OpenaiClient()
-        similar_results = get_keyword_results(query, openai_client, qdrant_client)
+    similar_results = get_similar_results(query, qdrant_client)
     similar_results = [id for id, _ in similar_results]
 
     dandiset_ids = []

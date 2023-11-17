@@ -10,13 +10,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var text_area = document.getElementById("user-query");
         const user_query = text_area.value;
+
+        var dropdown_select = document.getElementById("model-selection-dropdown");
+        const model_selection = dropdown_select.value;
         
         const response = await fetch("/scan/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ query: user_query }),
+            body: JSON.stringify({ query: user_query , model: model_selection}),
         });
         const result = await response.json();
         

@@ -10,7 +10,6 @@ import json
 from .script import scan_for_relevant_dandisets
 from .clients.aws_s3 import S3Bucket
 from .clients.qdrant import QdrantClient
-from .constants import DANDI_COLLECTION
 
 # docker build -t main . && docker run --env-file envfile.txt -p 8000:8000 main
 
@@ -19,17 +18,26 @@ templates = Jinja2Templates(directory="static")
 
 @app.on_event("startup")
 async def startup_event():
-    with open(str(Path.cwd() / "data/qdrant_points.json"), "r") as file:
-            emb = json.load(file)
+    with open(str(Path.cwd() / "data/qdrant_points_ada002.json"), "r") as openai_file:
+            openai_emb = json.load(openai_file)
+    with open(str(Path.cwd() / "data/qdrant_points_llama2.json"), "r") as llama2_file:
+            llama2_emb = json.load(llama2_file)
+    
     qdrant_client = QdrantClient(host="https://906c3b3f-d3ff-4497-905f-2d7089487cf9.us-east4-0.gcp.cloud.qdrant.io")
-    qdrant_client.create_collection(collection_name=DANDI_COLLECTION)
-    qdrant_client.add_points_to_collection(collection_name=DANDI_COLLECTION, embeddings_objects=emb)
+    
+    qdrant_client.create_collection(collection_name="dandi_collection_ada002")
+    qdrant_client.create_collection(collection_name="dandi_collection_llama2")
+    
+    qdrant_client.add_points_to_collection(collection_name="dandi_collection_ada002", embeddings_objects=openai_emb)
+    qdrant_client.add_points_to_collection(collection_name="dandi_collection_llama2", embeddings_objects=llama2_emb)
+    
     print("Qdrant Client loaded")
     app.state.qdrant_client = qdrant_client
 
 
 class QueryItem(BaseModel):
     query: str
+    model: str
 
 class ResponseItem(BaseModel):
     data: dict
@@ -40,7 +48,7 @@ def get_qdrant_client(request: Request) -> QdrantClient:
 @app.post("/scan/")
 async def scan_query(query_item: QueryItem, qdrant_client: QdrantClient = Depends(get_qdrant_client)):
     try:
-        result: dict = await run_in_threadpool(scan_for_relevant_dandisets, query_item.query, qdrant_client)
+        result: dict = await run_in_threadpool(scan_for_relevant_dandisets, query_item.query, query_item.model, qdrant_client)
         return result
     except Exception as e:
         return {"error": str(e)}, 500

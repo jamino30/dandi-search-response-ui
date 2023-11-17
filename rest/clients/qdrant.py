@@ -4,6 +4,7 @@ from qdrant_client.http.models import UpdateStatus
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from .openai import OpenaiClient
+from .llama2 import Llama2Client
 
 import os
 
@@ -31,6 +32,7 @@ class QdrantClient:
             api_key=api_key,
         )
         self.openai_client = OpenaiClient()
+        self.llama2_client = Llama2Client()
 
 
     def create_collection(self, collection_name: str):
@@ -63,8 +65,16 @@ class QdrantClient:
         return self.qdrant_client.get_collection(collection_name=collection_name).dict()
 
 
-    def query_similar_items(self, collection_name: str, query: str, top_k: int=10):
-        query_vector = self.openai_client.get_embedding_simple(query)
+    def query_similar_items(self, collection_name: str, query: str, testing: bool, top_k: int=10):
+        if collection_name == "dandi_collection_ada002":
+            query_vector = self.openai_client.get_embedding_simple(query)
+        elif collection_name == "dandi_collection_llama2":
+            query_vector = self.llama2_client.get_embedding_simple(query)
+        else:
+            raise ValueError("Invalid model selected.")
+        
+        if testing:
+            collection_name = "dandi_collection_test"
         search_result = self.qdrant_client.search(
             collection_name=collection_name,
             query_vector=query_vector,
@@ -73,8 +83,8 @@ class QdrantClient:
         return search_result
 
 
-    def query_from_user_input(self, text: str, collection_name: str, top_k: int=10):
-        search_results = self.query_similar_items(query=text, top_k=top_k, collection_name=collection_name)
+    def query_from_user_input(self, text: str, collection_name: str, top_k: int=10, testing=True):
+        search_results = self.query_similar_items(query=text, top_k=top_k, collection_name=collection_name, testing=testing)
         results = dict()
         for sr in search_results:
             dandiset_id = f"DANDI:{sr.payload['dandiset_id']}/{sr.payload['dandiset_version']}"
