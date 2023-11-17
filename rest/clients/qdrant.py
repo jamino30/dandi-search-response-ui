@@ -1,5 +1,5 @@
 from qdrant_client import QdrantClient as Qdrant
-from qdrant_client.http.models import Distance, VectorParams, PointStruct
+from qdrant_client.http.models import Distance, VectorParams, PointStruct, CollectionStatus
 from qdrant_client.http.models import UpdateStatus
 from concurrent.futures import ThreadPoolExecutor, wait
 
@@ -32,7 +32,12 @@ class QdrantClient:
             api_key=api_key,
         )
         self.openai_client = OpenaiClient()
-        self.llama2_client = Llama2Client()
+        # self.llama2_client = Llama2Client()
+
+
+    def has_collection(self, collection_name: str):
+        collection = self.qdrant_client.get_collection(collection_name=collection_name)
+        return collection.dict()["status"] == CollectionStatus.GREEN
 
 
     def create_collection(self, collection_name: str):
