@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
         text_area.disabled = true;
 
         scan_button.style.display = "none";
-        var model_selection_continer = document.querySelector(".scan-options-container");
-        model_selection_continer.style.display = "none";
+        var model_selection_container = document.querySelector(".scan-options-container");
+        model_selection_container.style.display = "none";
 
         var choose_relevant_form = document.getElementById("choose-relevant-form");
         choose_relevant_form.style.display = "block";
