@@ -25,8 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
         
         var iframes = document.querySelectorAll(".tab");
 
+        var ids = result.ids;
+        var scores = result.scores;
+        var names = result.names;
+
         for (var i = 0; i < iframes.length; i++) {
-            iframes[i].src = `https://dandiarchive.org/dandiset/${result.ids[i]}`;
+            iframes[i].src = `https://dandiarchive.org/dandiset/${ids[i]}`;
         }
 
         var left_frame = document.querySelector(".leftFrame");
@@ -45,16 +49,28 @@ document.addEventListener("DOMContentLoaded", function() {
         var choose_relevant_form = document.getElementById("choose-relevant-form");
         choose_relevant_form.style.display = "block";
 
+        function updateScoreBackground(score) {
+            if (score >= 0 && score < 50) {
+                return "rgb(255, 218, 218)";
+            } else if (score >= 50 && score < 70) {
+                return "rgb(252, 255, 218)";
+            } else {
+                return "rgb(218, 255, 219)";
+            }
+        }
+
         var ds_labels = document.querySelectorAll(".ds-label");
+        var ds_scores = document.querySelectorAll(".ds-score");
         var ds_checkboxes = document.querySelectorAll(".ds-checkbox-icon");
         var ds_names = document.querySelectorAll(".ds-name");
-        var ds_version = document.querySelectorAll(".ds-version");
         for (var i = 0; i < ds_labels.length; i++) {
-            var split_result = result.ids[i].split("/");
-            ds_labels[i].innerHTML = "<b>ID</b> | " + split_result[0];
-            ds_version[i].innerHTML = "<b>Version</b> | " + split_result[1];
-            ds_checkboxes[i].value = result.ids[i];
-            ds_names[i].innerHTML = "<b>Title:</b> " + result.names[i];
+            var split_result = ids[i].split("/");
+            ds_labels[i].innerHTML = "<b>ID</b> | " + split_result[0] + " / " + split_result[1];
+            var floatScore = (parseFloat(scores[i]) * 100.0).toFixed(2);
+            ds_scores[i].innerHTML = "<b>Score</b> | " + floatScore.toString() + "%";
+            ds_scores[i].style.background = updateScoreBackground(floatScore);
+            ds_checkboxes[i].value = ids[i];
+            ds_names[i].innerHTML = "<b>Title:</b> " + names[i];
         }
 
         var left_larger_button = document.getElementById("left-larger");

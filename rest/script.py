@@ -27,14 +27,13 @@ def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantCli
         return similar_results
 
     similar_results = get_similar_results(query, qdrant_client)
-    similar_results = [id for id, _ in similar_results]
+    similar_results, scores = zip(*similar_results)
 
     dandiset_ids = []
     dandiset_names = []
     for dandiset_result in similar_results:
         id = dandiset_result.split(":")[-1]
         dandiset_ids.append(id)
-        # dandiset_archive_link = f"https://dandiarchive.org/dandiset/{dandiset_path}"
 
         # show dandiset name
         dandiset_id, dandiset_version = id.split("/")
@@ -42,4 +41,4 @@ def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantCli
         name = dandiset.get_metadata().name.strip()
         dandiset_names.append(name)
 
-    return {"ids": dandiset_ids, "names": dandiset_names}
+    return {"ids": dandiset_ids, "scores": list(scores), "names": dandiset_names}

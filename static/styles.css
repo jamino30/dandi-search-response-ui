@@ -145,18 +145,18 @@ li {
     align-items: center;
 }
 
-.ds-label, .ds-version {
+.ds-label, .ds-score {
     font-size: 12px;
     padding: 2px 8px;
+    background: rgb(218, 241, 255);
     border-radius: 10px;
-    background: white;
     color: black;
     border: 1.5px rgb(125, 125, 125) solid;
 }
 
 .ds-checkbox:hover,
 .ds-checkbox:hover .ds-label,
-.ds-checkbox:hover .ds-version {
+.ds-checkbox:hover .ds-score {
     border: 1.5px black solid;
 }
 
@@ -170,16 +170,8 @@ li {
 }
 
 .ds-checkbox.clicked .ds-label,
-.ds-checkbox.clicked .ds-version {
+.ds-checkbox.clicked .ds-score {
     border: 1.5px black solid;
-}
-
-.ds-checkbox.clicked .ds-label {
-    background-color: rgb(206, 243, 255);
-} 
-
-.ds-checkbox.clicked .ds-version {
-    background-color: rgb(255, 207, 207);
 }
 
 .ds-name {
