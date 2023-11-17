@@ -40,6 +40,10 @@ class QdrantClient:
         return collection.dict()["status"] == CollectionStatus.GREEN
 
 
+    def update_collection(self, collection_name: str, emb: list):
+        self.qdrant_client.create_collection(collection_name=collection_name)
+        self.qdrant_client.add_points_to_collection(collection_name=collection_name, embeddings_objects=emb)
+        
     def create_collection(self, collection_name: str):
         self.qdrant_client.recreate_collection(
             collection_name=collection_name,
