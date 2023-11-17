@@ -1,6 +1,8 @@
 import unittest
 import requests
 
+from dandi.dandiapi import DandiAPIClient
+
 class TestScanEndpoint(unittest.TestCase):
 
     def test_scan_endpoint(self):
@@ -22,10 +24,14 @@ class TestScanEndpoint(unittest.TestCase):
         self.assertEqual(len(ids), 6)
         self.assertEqual(len(names), 6)
 
+        dandi_client = DandiAPIClient()
         for id in ids:
-            url = f"https://dandiarchive.org/dandiset/{id}"
-            url_response = requests.get(url)
-            self.assertEqual(url_response.status_code, 200, f"URL {url} is not reachable.")
+            try:
+                ds_id, ds_version = id.split("/")
+                dandiset = dandi_client.get_dandiset(ds_id, ds_version)
+                print(dandiset)
+            except Exception:
+                self.fail("Invalid dandiset ID.")
 
 
 if __name__ == "__main__":
