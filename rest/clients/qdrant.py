@@ -32,7 +32,7 @@ class QdrantClient:
             api_key=api_key,
         )
         self.openai_client = OpenaiClient()
-        # self.llama2_client = Llama2Client()
+        self.llama2_client = Llama2Client()
 
 
     def has_collection(self, collection_name: str):
@@ -41,8 +41,8 @@ class QdrantClient:
 
 
     def update_collection(self, collection_name: str, emb: list):
-        self.qdrant_client.create_collection(collection_name=collection_name)
-        self.qdrant_client.add_points_to_collection(collection_name=collection_name, embeddings_objects=emb)
+        self.create_collection(collection_name=collection_name)
+        self.add_points_to_collection(collection_name=collection_name, embeddings_objects=emb)
         
     def create_collection(self, collection_name: str):
         self.qdrant_client.recreate_collection(

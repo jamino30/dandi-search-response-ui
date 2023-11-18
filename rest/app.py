@@ -26,10 +26,10 @@ async def startup_event():
             openai_emb = json.load(openai_file)
         qdrant_client.update_collection(collection_name=OPENAI_COLLECTION_NAME, emb=openai_emb)
     
-    # if not qdrant_client.has_collection(collection_name=LLAMA2_COLLECTION_NAME):
-    #     with open(str(Path.cwd() / "data/qdrant_points_llama2.json"), "r") as llama2_file:
-    #         llama2_emb = json.load(llama2_file)
-    #     qdrant_client.update_collection(collection_name=LLAMA2_COLLECTION_NAME, emb=llama2_emb)
+    if not qdrant_client.has_collection(collection_name=LLAMA2_COLLECTION_NAME):
+        with open(str(Path.cwd() / "data/qdrant_points_llama2.json"), "r") as llama2_file:
+            llama2_emb = json.load(llama2_file)
+        qdrant_client.update_collection(collection_name=LLAMA2_COLLECTION_NAME, emb=llama2_emb)
     
     app.state.qdrant_client = qdrant_client
 

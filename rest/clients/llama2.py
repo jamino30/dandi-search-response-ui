@@ -1,4 +1,4 @@
-from langchain.embeddings import LlamaCppEmbeddings
+from langchain.embeddings.ollama import OllamaEmbeddings
 from typing import List
 from pathlib import Path
 
@@ -11,8 +11,8 @@ from .dandi import DandiClient
 class Llama2Client:
     def __init__(self):
         self.dandi_client = DandiClient()
-        model_path = str(Path.cwd().parent / "bin" / "model.bin")
-        self.embeddings_client = LlamaCppEmbeddings(model_path=model_path)
+        # model_path = str(Path.cwd().parent / "bin" / "model.bin")
+        self.embeddings_client = OllamaEmbeddings(model="llama2")
 
 
     def get_embedding_simple(self, text: str) -> list:
@@ -25,10 +25,7 @@ class Llama2Client:
         if not max_num_sets:
             max_num_sets = len(metadata_list)
         query_list = [self.dandi_client.stringify_relevant_metadata(m) for m in metadata_list[:max_num_sets]]
-        embeddings = self.embeddings_client.embed_documents(
-            texts=query_list,
-            chunk_size=len(query_list),
-        )
+        embeddings = self.embeddings_client.embed_documents(texts=query_list)
         # Prepare Qdrant Points
         qdrant_points = [
             {
