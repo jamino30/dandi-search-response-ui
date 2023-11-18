@@ -20,12 +20,10 @@ class QdrantClient:
         self,
         host: str=os.environ.get('QDRANT_HOST', "http://qdrant"),
         port: int=safe_int(os.environ.get('QDRANT_PORT'), 6333),
-        vector_size: int=safe_int(os.environ.get('QDRANT_VECTOR_SIZE'), 1536),
         api_key: str=os.environ.get('QDRANT_API_KEY', None),
     ) -> None:
         self.host = host
         self.port = port
-        self.vector_size = vector_size
         self.qdrant_client = Qdrant(
             location=self.host, 
             port=self.port,
@@ -40,14 +38,15 @@ class QdrantClient:
         return collection.dict()["status"] == CollectionStatus.GREEN
 
 
-    def update_collection(self, collection_name: str, emb: list):
-        self.create_collection(collection_name=collection_name)
+    def update_collection(self, collection_name: str, emb: list, vector_size: int):
+        self.create_collection(collection_name=collection_name, vector_size=vector_size)
         self.add_points_to_collection(collection_name=collection_name, embeddings_objects=emb)
         
-    def create_collection(self, collection_name: str):
+
+    def create_collection(self, collection_name: str, vector_size: int):
         self.qdrant_client.recreate_collection(
             collection_name=collection_name,
-            vectors_config=VectorParams(size=self.vector_size, distance=Distance.DOT),
+            vectors_config=VectorParams(size=vector_size, distance=Distance.DOT),
         )   
 
 
