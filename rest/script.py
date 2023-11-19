@@ -23,6 +23,7 @@ def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantCli
         return similar_results
 
     similar_results = get_similar_results(query, qdrant_client)
+    print("Results found.")
     similar_results, scores = zip(*similar_results)
 
     dandiset_ids = []
@@ -37,4 +38,15 @@ def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantCli
         name = dandiset.get_metadata().name.strip()
         dandiset_names.append(name)
 
-    return {"ids": dandiset_ids, "scores": list(scores), "names": dandiset_names}
+    results = {
+        "ids": dandiset_ids if dandiset_ids else None, 
+        "scores": list(scores) if scores else None, 
+        "names": dandiset_names if dandiset_names else None
+    }
+    return results
+
+
+# Dandi search algorithm to address scientific/quantitative queries
+class DandiSearch:
+    def __init__(self):
+        pass
