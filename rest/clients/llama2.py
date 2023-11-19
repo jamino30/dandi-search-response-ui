@@ -17,8 +17,8 @@ class Llama2Client:
 
     def get_embedding_simple(self, text: str) -> list:
         """Get embedding for a single text"""
-        return self.embeddings_client.embed_query(text)
-
+        emb = self.embeddings_client.embed_query(text=text)
+        return emb
 
     def get_embeddings(self, metadata_list: List[dict], max_num_sets: int = None, save_to_file: bool = False) -> List:
         """Get embeddings for all metadata fields, organizes them as list of objects similar to Qdrant points"""

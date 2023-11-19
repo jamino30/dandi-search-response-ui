@@ -27,14 +27,20 @@ async def startup_event():
     qdrant_client = QdrantClient(host="https://906c3b3f-d3ff-4497-905f-2d7089487cf9.us-east4-0.gcp.cloud.qdrant.io")
     
     if not qdrant_client.has_collection(collection_name=OPENAI_COLLECTION_NAME):
+        print(f"{OPENAI_COLLECTION_NAME} qdrant collection not found.")
         with open(str(Path.cwd() / "data/qdrant_points_ada002.json"), "r") as openai_file:
             openai_emb = json.load(openai_file)
         qdrant_client.update_collection(collection_name=OPENAI_COLLECTION_NAME, emb=openai_emb, vector_size=OPENAI_VECTOR_SIZE)
+    else:
+        print(f"{OPENAI_COLLECTION_NAME} qdrant collection found!")
     
     if not qdrant_client.has_collection(collection_name=LLAMA2_COLLECTION_NAME):
+        print(f"{LLAMA2_COLLECTION_NAME} qdrant collection not found.")
         with open(str(Path.cwd() / "data/qdrant_points_llama2.json"), "r") as llama2_file:
             llama2_emb = json.load(llama2_file)
         qdrant_client.update_collection(collection_name=LLAMA2_COLLECTION_NAME, emb=llama2_emb, vector_size=LLAMA2_VECTOR_SIZE)
+    else:
+        print(f"{LLAMA2_COLLECTION_NAME} qdrant collection found!")
     
     app.state.qdrant_client = qdrant_client
 
@@ -53,6 +59,7 @@ def get_qdrant_client(request: Request) -> QdrantClient:
 async def scan_query(query_item: QueryItem, qdrant_client: QdrantClient = Depends(get_qdrant_client)):
     try:
         result: dict = await run_in_threadpool(scan_for_relevant_dandisets, query_item.query, query_item.model, qdrant_client)
+        print(result)
         return result
     except Exception as e:
         return {"error": str(e)}, 500

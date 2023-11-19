@@ -10,9 +10,6 @@ TOP_K = 6
 dandi_client = DandiAPIClient()
 
 
-# change to true if testing locally; set to false for deployment
-TESTING = True
-
 def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantClient):
     query = query.strip()
 
@@ -22,7 +19,6 @@ def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantCli
             text=query, 
             collection_name=model, 
             top_k=TOP_K,
-            testing=TESTING
         )
         return similar_results
 

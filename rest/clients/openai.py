@@ -22,7 +22,8 @@ class OpenaiClient:
 
     def get_embedding_simple(self, text: str) -> list:
         """Get embedding for a single text"""
-        return self.embeddings_client.embed_query(text)
+        emb = self.embeddings_client.embed_query(text=text)
+        return emb
 
 
     def get_embeddings(self, metadata_list: List[dict], max_num_sets: int = None, save_to_file: bool = False) -> List:
