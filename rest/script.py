@@ -4,25 +4,24 @@ from .clients.qdrant import QdrantClient
 # Number of similar results to fetch (adjust based on model)
 TOP_K = 6
 
-# Semantic "simple" search vs keyword-based "keyword" search (adjust based on model)
-# METHOD = "simple"
-
 dandi_client = DandiAPIClient()
 
 
-def scan_for_relevant_dandisets(query: str, model: str, qdrant_client: QdrantClient):
+def scan_for_relevant_dandisets(query: str, model: str, qdrant_client, openai_client, llama2_client):
     query = query.strip()
 
     # Get semantic search results
-    def get_similar_results(query: str, qdrant_client: QdrantClient):
+    def get_similar_results(query: str, qdrant_client: QdrantClient, openai_client, llama2_client):
         similar_results = qdrant_client.query_from_user_input(
             text=query, 
             collection_name=model, 
             top_k=TOP_K,
+            openai_client=openai_client,
+            llama2_client=llama2_client
         )
         return similar_results
 
-    similar_results = get_similar_results(query, qdrant_client)
+    similar_results = get_similar_results(query, qdrant_client, openai_client, llama2_client)
     print("Results found.")
     similar_results, scores = zip(*similar_results)
 

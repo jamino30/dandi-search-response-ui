@@ -29,8 +29,6 @@ class QdrantClient:
             port=self.port,
             api_key=api_key,
         )
-        self.openai_client = OpenaiClient()
-        self.llama2_client = Llama2Client()
 
 
     def has_collection(self, collection_name: str):
@@ -73,11 +71,11 @@ class QdrantClient:
         return self.qdrant_client.get_collection(collection_name=collection_name).dict()
 
 
-    def query_similar_items(self, collection_name: str, query: str, top_k: int=10):
+    def query_similar_items(self, collection_name: str, query: str, openai_client: OpenaiClient, llama2_client: Llama2Client, top_k: int=10):
         if collection_name == "dandi_collection_ada002":
-            query_vector = self.openai_client.get_embedding_simple(query)
+            query_vector = openai_client.get_embedding_simple(text=query)
         elif collection_name == "dandi_collection_llama2":
-            query_vector = self.llama2_client.get_embedding_simple(query)
+            query_vector = llama2_client.get_embedding_simple(text=query)
         else:
             raise ValueError("Invalid model selected.")
 
@@ -89,8 +87,21 @@ class QdrantClient:
         return search_result
 
 
-    def query_from_user_input(self, text: str, collection_name: str, top_k: int=10):
-        search_results = self.query_similar_items(query=text, top_k=top_k, collection_name=collection_name)
+    def query_from_user_input(
+            self, 
+            text: str, 
+            collection_name: str, 
+            openai_client: OpenaiClient,
+            llama2_client: Llama2Client,
+            top_k: int=10,
+        ):
+        search_results = self.query_similar_items(
+            query=text, 
+            top_k=top_k, 
+            collection_name=collection_name,
+            openai_client=openai_client,
+            llama2_client=llama2_client
+        )
         results = dict()
         for sr in search_results:
             dandiset_id = f"DANDI:{sr.payload['dandiset_id']}/{sr.payload['dandiset_version']}"

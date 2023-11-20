@@ -10,6 +10,8 @@ import json
 from .script import scan_for_relevant_dandisets
 from .clients.aws_s3 import S3Bucket
 from .clients.qdrant import QdrantClient
+from .clients.openai import OpenaiClient
+from .clients.llama2 import Llama2Client
 from .constants import (
     OPENAI_COLLECTION_NAME, 
     LLAMA2_COLLECTION_NAME, 
@@ -43,6 +45,10 @@ async def startup_event():
         print(f"{LLAMA2_COLLECTION_NAME} qdrant collection found!")
     
     app.state.qdrant_client = qdrant_client
+    app.state.openai_client = OpenaiClient()
+    app.state.llama2_client = Llama2Client()
+
+
 
 
 class QueryItem(BaseModel):
@@ -55,10 +61,28 @@ class ResponseItem(BaseModel):
 def get_qdrant_client(request: Request) -> QdrantClient:
     return request.app.state.qdrant_client
 
+def get_openai_client(request: Request) -> OpenaiClient:
+    return request.app.state.openai_client
+
+def get_llama2_client(request: Request) -> Llama2Client:
+    return request.app.state.llama2_client
+
 @app.post("/scan/")
-async def scan_query(query_item: QueryItem, qdrant_client: QdrantClient = Depends(get_qdrant_client)):
+async def scan_query(
+    query_item: QueryItem, 
+    qdrant_client: QdrantClient = Depends(get_qdrant_client),
+    openai_client: OpenaiClient = Depends(get_openai_client),
+    llama2_client: Llama2Client = Depends(get_llama2_client)
+):
     try:
-        result: dict = await run_in_threadpool(scan_for_relevant_dandisets, query_item.query, query_item.model, qdrant_client)
+        result: dict = await run_in_threadpool(
+            scan_for_relevant_dandisets, 
+            query_item.query, 
+            query_item.model, 
+            qdrant_client,
+            openai_client,
+            llama2_client
+        )
         print(result)
         return result
     except Exception as e:
