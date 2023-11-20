@@ -12,13 +12,16 @@ class Llama2Client:
     def __init__(self):
         self.dandi_client = DandiClient()
         # model_path = str(Path.cwd().parent / "bin" / "model.bin")
-        self.embeddings_client = OllamaEmbeddings(model="llama2")
+        self.embeddings_client = OllamaEmbeddings(base_url="http://0.0.0.0:11434", model="llama2")
 
 
     def get_embedding_simple(self, text: str) -> list:
         """Get embedding for a single text"""
         print("get_embedding_simple reached.")
-        emb = self.embeddings_client.embed_query(text=text)
+        try:
+            emb = self.embeddings_client.embed_query(text=text)
+        except Exception as e:
+            print(f"exception occurred: {e}")
         print(emb)
         return emb
 

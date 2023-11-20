@@ -17,7 +17,7 @@ class OpenaiClient:
     def __init__(self):
         openai.api_key = os.environ.get("OPENAI_API_KEY")
         self.dandi_client = DandiClient()
-        self.embeddings_client = OpenAIEmbeddings()
+        self.embeddings_client = OpenAIEmbeddings(model="text-embedding-ada-002")
 
 
     def get_embedding_simple(self, text: str) -> list:
