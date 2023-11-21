@@ -1,5 +1,5 @@
 from dandi.dandiapi import DandiAPIClient
-from dandischema.models import Dandiset
+from dandischema.models import Dandiset, AssetsSummary
 import concurrent.futures
 
 
@@ -60,34 +60,31 @@ class DandiClient:
             try:
                 title = m.name
                 description = m.description
-                if m.assetsSummary.approach:
-                    approaches = [a.name for a in m.assetsSummary.approach]
+
+                assets: AssetsSummary = m.assetsSummary
+                if assets.approach:
+                    approaches = [a.name for a in assets.approach]
                 else:
                     approaches = []
-                if m.assetsSummary.measurementTechnique:
-                    measurement_techniques = [a.name for a in m.assetsSummary.measurementTechnique]
+                if assets.measurementTechnique:
+                    measurement_techniques = [a.name for a in assets.measurementTechnique]
                 else:
                     measurement_techniques = []
-                if m.assetsSummary.variableMeasured:
-                    variables_measured = [a for a in m.assetsSummary.variableMeasured]
+                if assets.variableMeasured:
+                    variables_measured = [a for a in assets.variableMeasured]
                 else:
                     variables_measured = []
-                if m.assetsSummary.species:
+                if assets.species:
                     species = [a.name for a in m.assetsSummary.species]
                 else:
                     species = []
-                # all_metadata_formatted.append(
-                #     {
-                #         "dandiset_id": m.id,
-                #         "url": str(m.url),
-                #         "title": title,
-                #         "description": description,
-                #         "approaches": approaches,
-                #         "measurement_techniques": measurement_techniques,
-                #         "variables_measured": variables_measured,
-                #         "species": species,
-                #     }
-                # )
+
+                num_bytes = assets.numberOfBytes
+                num_files = assets.numberOfFiles
+                num_subjects = assets.numberOfSubjects
+                num_samples = assets.numberOfSamples
+                num_cells = assets.numberOfCells
+
                 dandiset_id, dandiset_version = m.id.split(":")[-1].split("/")
                 all_metadata_formatted.append(
                     {
@@ -103,6 +100,11 @@ class DandiClient:
                         "number_of_variables_measured": len(variables_measured),
                         "species": species,
                         "number_of_species": len(species),
+                        "number_of_bytes": num_bytes,
+                        "number_of_files": num_files,
+                        "number_of_subjects": num_subjects,
+                        "number_of_samples": num_samples,
+                        "number_of_cells": num_cells
                     }
                 )
             except Exception as e:
