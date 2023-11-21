@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   app:
@@ -7,24 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    depends_on:
-      - embeddings
-    networks:
-      - llm-network
     env_file:
       - envfile.txt
-
-  embeddings:
-    build:
-      args:
-        DOCKER_BUILDKIT: 1
-      context: .
-    ports:
-      - "11434:11434"
-    networks:
-      - llm-network
-    env_file:
-      - envfile.txt
-
-networks:
-  llm-network:
+  

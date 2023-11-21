@@ -4,7 +4,7 @@ from qdrant_client.http.models import UpdateStatus
 from concurrent.futures import ThreadPoolExecutor, wait
 
 from .openai import OpenaiClient
-from .llama2 import Llama2Client
+from .embedding import EmbeddingClient
 
 import os
 
@@ -71,11 +71,11 @@ class QdrantClient:
         return self.qdrant_client.get_collection(collection_name=collection_name).dict()
 
 
-    def query_similar_items(self, collection_name: str, query: str, openai_client: OpenaiClient, llama2_client: Llama2Client, top_k: int=10):
+    def query_similar_items(self, collection_name: str, query: str, openai_client: OpenaiClient, emb_client: EmbeddingClient, top_k: int=10):
         if collection_name == "dandi_collection_ada002":
             query_vector = openai_client.get_embedding_simple(text=query)
-        elif collection_name == "dandi_collection_llama2":
-            query_vector = llama2_client.get_embedding_simple(text=query)
+        elif collection_name == "dandi_collection_emb":
+            query_vector = emb_client.get_embedding_simple(text=query)
         else:
             raise ValueError("Invalid model selected.")
 
@@ -92,7 +92,7 @@ class QdrantClient:
             text: str, 
             collection_name: str, 
             openai_client: OpenaiClient,
-            llama2_client: Llama2Client,
+            emb_client: EmbeddingClient,
             top_k: int=10,
         ):
         search_results = self.query_similar_items(
@@ -100,7 +100,7 @@ class QdrantClient:
             top_k=top_k, 
             collection_name=collection_name,
             openai_client=openai_client,
-            llama2_client=llama2_client
+            emb_client=emb_client
         )
         results = dict()
         for sr in search_results:

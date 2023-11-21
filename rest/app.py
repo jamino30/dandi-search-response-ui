@@ -11,12 +11,12 @@ from .script import scan_for_relevant_dandisets
 from .clients.aws_s3 import S3Bucket
 from .clients.qdrant import QdrantClient
 from .clients.openai import OpenaiClient
-from .clients.llama2 import Llama2Client
+from .clients.embedding import EmbeddingClient
 from .constants import (
     OPENAI_COLLECTION_NAME, 
-    LLAMA2_COLLECTION_NAME, 
+    EMB_COLLECTION_NAME, 
     OPENAI_VECTOR_SIZE, 
-    LLAMA2_VECTOR_SIZE
+    EMB_VECTOR_SIZE
 )
 
 # docker build -t main . && docker run --env-file envfile.txt -p 8000:8000 main
@@ -36,17 +36,17 @@ async def startup_event():
     else:
         print(f"{OPENAI_COLLECTION_NAME} qdrant collection found!")
     
-    if not qdrant_client.has_collection(collection_name=LLAMA2_COLLECTION_NAME):
-        print(f"{LLAMA2_COLLECTION_NAME} qdrant collection not found.")
-        with open(str(Path.cwd() / "data/qdrant_points_llama2.json"), "r") as llama2_file:
-            llama2_emb = json.load(llama2_file)
-        qdrant_client.update_collection(collection_name=LLAMA2_COLLECTION_NAME, emb=llama2_emb, vector_size=LLAMA2_VECTOR_SIZE)
+    if not qdrant_client.has_collection(collection_name=EMB_COLLECTION_NAME):
+        print(f"{EMB_COLLECTION_NAME} qdrant collection not found.")
+        with open(str(Path.cwd() / "data/qdrant_points_emb.json"), "r") as emb_file:
+            model_emb = json.load(emb_file)
+        qdrant_client.update_collection(collection_name=EMB_COLLECTION_NAME, emb=model_emb, vector_size=EMB_VECTOR_SIZE)
     else:
-        print(f"{LLAMA2_COLLECTION_NAME} qdrant collection found!")
+        print(f"{EMB_COLLECTION_NAME} qdrant collection found!")
     
     app.state.qdrant_client = qdrant_client
     app.state.openai_client = OpenaiClient()
-    app.state.llama2_client = Llama2Client()
+    app.state.emb_client = EmbeddingClient()
 
 
 
@@ -64,15 +64,15 @@ def get_qdrant_client(request: Request) -> QdrantClient:
 def get_openai_client(request: Request) -> OpenaiClient:
     return request.app.state.openai_client
 
-def get_llama2_client(request: Request) -> Llama2Client:
-    return request.app.state.llama2_client
+def get_emb_client(request: Request) -> EmbeddingClient:
+    return request.app.state.emb_client
 
 @app.post("/scan/")
 async def scan_query(
     query_item: QueryItem, 
     qdrant_client: QdrantClient = Depends(get_qdrant_client),
     openai_client: OpenaiClient = Depends(get_openai_client),
-    llama2_client: Llama2Client = Depends(get_llama2_client)
+    emb_client: EmbeddingClient = Depends(get_emb_client)
 ):
     try:
         result: dict = await run_in_threadpool(
@@ -81,7 +81,7 @@ async def scan_query(
             query_item.model, 
             qdrant_client,
             openai_client,
-            llama2_client
+            emb_client
         )
         print(result)
         return result

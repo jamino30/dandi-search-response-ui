@@ -7,21 +7,21 @@ TOP_K = 6
 dandi_client = DandiAPIClient()
 
 
-def scan_for_relevant_dandisets(query: str, model: str, qdrant_client, openai_client, llama2_client):
+def scan_for_relevant_dandisets(query: str, model: str, qdrant_client, openai_client, emb_client):
     query = query.strip()
 
     # Get semantic search results
-    def get_similar_results(query: str, qdrant_client: QdrantClient, openai_client, llama2_client):
+    def get_similar_results(query: str, qdrant_client: QdrantClient, openai_client, emb_client):
         similar_results = qdrant_client.query_from_user_input(
             text=query, 
             collection_name=model, 
             top_k=TOP_K,
             openai_client=openai_client,
-            llama2_client=llama2_client
+            emb_client=emb_client
         )
         return similar_results
 
-    similar_results = get_similar_results(query, qdrant_client, openai_client, llama2_client)
+    similar_results = get_similar_results(query, qdrant_client, openai_client, emb_client)
     print("Results found.")
     similar_results, scores = zip(*similar_results)
 
