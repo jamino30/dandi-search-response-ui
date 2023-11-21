@@ -11,8 +11,6 @@
 ```bash
 QDRANT_HOST=
 QDRANT_PORT=
-QDRANT_COLLECTION_NAME=
-QDRANT_VECTOR_SIZE=
 QDRANT_API_KEY=
 OPENAI_API_KEY=
 DANDI_API_KEY=
@@ -21,16 +19,9 @@ AWS_SECRET_ACCESS_KEY=
 AWS_DEFAULT_REGION=
 ```
 
-2. To run the web application service, first build the Docker image.
-
+2. To launch the services in `docker-compose.yml`, execute the following:
 ```bash
-docker build -t dsru-app .
-```
-
-3. Run the container with the specific configurations (environment variables, port mapping).
-
-```bash
-docker run --env-file envfile.txt -p 8000:8000 dsru-app
+docker compose up --build
 ```
 
 ## Deployment
