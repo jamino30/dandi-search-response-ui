@@ -21,6 +21,7 @@ from .constants import (
 
 # docker build -t main . && docker run --env-file envfile.txt -p 8000:8000 main
 
+
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
 
